@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  MANAGER
+  TECHNICAL
+  EMPLOYEE
+}
+
+enum Category {
+  IT_SUPPORT
+  FACILITIES
+  HR
+  OTHER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum Status {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum ActivityType {
+  STATUS_CHANGE
+  COMMENT
+  ASSIGNMENT
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  passwordHash   String
+  name           String
+  role           Role
+  createdAt      DateTime  @default(now())
+
+  ticketsCreated  Ticket[]   @relation("CreatedBy")
+  ticketsAssigned Ticket[]   @relation("AssignedTo")
+  activities      Activity[]
+}
+
+model Ticket {
+  id            String    @id @default(cuid())
+  ticketNumber  String    @unique      // "TKT-001"
+  title         String
+  description   String
+  category      Category
+  priority      Priority
+  status        Status    @default(OPEN)
+
+  createdById   String
+  createdBy     User      @relation("CreatedBy", fields: [createdById], references: [id])
+
+  assignedToId  String?
+  assignedTo    User?     @relation("AssignedTo", fields: [assignedToId], references: [id])
+
+  activities    Activity[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Activity {
+  id          String        @id @default(cuid())
+  ticketId    String
+  ticket      Ticket        @relation(fields: [ticketId], references: [id])
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+  type        ActivityType
+  content     String?       // comment text, if type = COMMENT
+  fromStatus  Status?
+  toStatus    Status?
+  createdAt   DateTime      @default(now())
+}
