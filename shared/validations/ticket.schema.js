@@ -5,7 +5,16 @@ const ticketSchema= z.object({
     description: z.string().min(10).max(100),
     priority:z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']),
     category: z.enum(['HR', 'FACILITIES','OTHER', 'IT_SUPPORT'])
+    
 
 })
+const updateTicketStatus= z.object({
+    status: z.enum(['IN_PROGRESS','ASSIGNED','RESOLVED', 'CLOSED'])
+})
 
-module.exports={ticketSchema}
+const assignTicket =z.object
+({
+    TechnicaId: z.string().min(5)
+})
+
+module.exports={ticketSchema, updateTicketStatus, assignTicket}
