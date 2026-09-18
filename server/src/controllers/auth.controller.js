@@ -29,10 +29,10 @@ async function register (req, res){
     })
 
     const accessToken= jwt.sign(
-        {userId: user.id, role: user.role}, env.jwtSecret, {expiresIn: '1d'}
+        {userId: user.id, role: user.role}, env.JWT_SECRET, {expiresIn: '1d'}
     )
 
-    const refreshToken= jwt.sign({userId: user.id, role: user.role}, env.jwtRefreshSecret, {expiresIn: '7d'}
+    const refreshToken= jwt.sign({userId: user.id, role: user.role}, env.JWT_REFRESH_SECRET, {expiresIn: '7d'}
     )
 
     const result = {
@@ -66,10 +66,10 @@ async function login(req, res){
     }
    
    const accessToken= jwt.sign(
-        {userId: user.id, role: user.role}, env.jwtSecret, {expiresIn: '1d'}
+        {userId: user.id, role: user.role}, env.JWT_SECRET, {expiresIn: '1d'}
     )
 
-    const refreshToken= jwt.sign({userId: user.id, role: user.role}, env.jwtRefreshSecret, {expiresIn: '7d'}
+    const refreshToken= jwt.sign({userId: user.id, role: user.role}, env.JWT_REFRESH_SECRET, {expiresIn: '7d'}
     )
 
     const result = {
