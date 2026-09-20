@@ -15,7 +15,7 @@ app.use(cors({
 }))
 
 app.use('/api/auth', authRouter)
-app.use('/api/tickets', ticketRouter)
+app.use('/api', ticketRouter)
 app.use(errorHandler)
 
 app.listen(PORT, ()=>{

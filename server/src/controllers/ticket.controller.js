@@ -164,7 +164,7 @@ async function confirmResolution(req,res){
 
 async function getTickets(req, res){
     const {role} = req.user
-    const {status, priority, category, search , order, sort} = req.query
+    const {status, priority, category, search , order, sort, technicianId} = req.query
 
     const allowedSortFields = ['priority', 'createdAt', 'status', 'title']
     const sortField = allowedSortFields.includes(sort) ? sort : 'createdAt'
@@ -178,7 +178,10 @@ async function getTickets(req, res){
                         status: status,
                         priority: priority,
                         category: category,
-                        title:{contains: search, mode: 'insensitive'}
+                        OR: [
+                            {title: {contains: search, mode: 'insensitive'}},
+                            {ticketNumber: {contains: search, mode: 'insensitive'}}
+                        ]
                     },
                     orderBy:{
                         [sortField] : sortOrder
@@ -193,7 +196,10 @@ async function getTickets(req, res){
                         status: status,
                         priority: priority,
                         category: category,
-                        title:{contains: search, mode: 'insensitive'}
+                        OR: [
+                            {title: {contains: search, mode: 'insensitive'}},
+                            {ticketNumber: {contains: search, mode: 'insensitive'}}
+                        ]
                     },
                      orderBy:{
                         [sortField] : sortOrder
@@ -208,7 +214,13 @@ async function getTickets(req, res){
                         status: status,
                         priority: priority,
                         category: category,
-                        title:{contains: search, mode: 'insensitive'}
+                        assignedToId: technicianId ? technicianId : undefined,
+                        ...(search ? {
+                            OR: [
+                                {title: {contains: search, mode: 'insensitive'}},
+                                {ticketNumber: {contains: search, mode: 'insensitive'}}
+                            ]
+                        } : {})
                     },
                      orderBy:{
                         [sortField] : sortOrder
@@ -231,12 +243,15 @@ async function getTicketsById(req, res){
     const activity = await prisma.activity.findMany({
         where:{
             ticketId: req.params.id
+        },
+        orderBy: {
+            createdAt: 'asc'
         }
     })
     if (!result){
         return res.status(404).json({message:'No Tickets Found'})
     }
-    return res.status(200).json({result, message: 'Fetched Successfully'})
+    return res.status(200).json({result, activity, message: 'Fetched Successfully'})
 }
 
 async function addComment(req, res){
@@ -327,11 +342,20 @@ async function getStats(req, res){
                 }
             })
 
+            const lowPriority = await prisma.ticket.count({ where: { priority: 'LOW' } })
+            const mediumPriority = await prisma.ticket.count({ where: { priority: 'MEDIUM' } })
+            const highPriority = await prisma.ticket.count({ where: { priority: 'HIGH' } })
+            const criticalPriority = await prisma.ticket.count({ where: { priority: 'CRITICAL' } })
+
             return res.status(200).json({
                 tickets,
                 openTickets,
                 resolvedTickets,
-                closedTickets
+                closedTickets,
+                lowPriority,
+                mediumPriority,
+                highPriority,
+                criticalPriority
             })
         }
 

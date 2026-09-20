@@ -36,7 +36,7 @@ async function register (req, res){
     )
 
     const result = {
-        user:{id:user.id, email:user.email, role:user.role},
+        user:{id:user.id, name:user.name, email:user.email, role:user.role},
         accessToken,
         refreshToken
     }
@@ -73,7 +73,7 @@ async function login(req, res){
     )
 
     const result = {
-        user:{id:user.id, email:user.email, role:user.role},
+        user:{id:user.id, name: user.name, email:user.email, role:user.role},
         accessToken,
         refreshToken
     }
@@ -86,4 +86,38 @@ async function logout (req, res){
 
 }
 
-module.exports ={register, login, logout}
+async function getUsers(req, res) {
+    const { role } = req.query;
+    const filter = role ? { role } : {};
+    
+    try {
+        const users = await prisma.user.findMany({
+            where: filter,
+            select: { id: true, name: true, email: true, role: true }
+        });
+        return res.status(200).json({ users });
+    } catch (err) {
+        return res.status(500).json({ message: 'Error fetching users' });
+    }
+}
+async function updateRole(req, res) {
+    if (req.user.role !== 'MANAGER') {
+        return res.status(403).json({message: 'Forbidden'})
+    }
+    const { role } = req.body;
+    if (!role) {
+        return res.status(400).json({message: 'Role is required'})
+    }
+    
+    try {
+        const user = await prisma.user.update({
+            where: { id: req.params.id },
+            data: { role: role }
+        });
+        return res.status(200).json({ user, message: 'Role updated successfully' });
+    } catch(err) {
+        return res.status(500).json({message: 'Error updating role'});
+    }
+}
+
+module.exports ={register, login, logout, getUsers, updateRole}
