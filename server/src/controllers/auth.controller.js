@@ -1,5 +1,5 @@
 const prisma = require('../../prisma/database')
-const {env}= require('../../env')
+const env= require('../../env')
 const jwt = require('jsonwebtoken')
 const bycrpt = require('bcryptjs')
 const {registerSchema, loginSchema} = require('../../../shared/validations/auth.schema')

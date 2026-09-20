@@ -14,7 +14,7 @@ const updateTicketStatus= z.object({
 
 const assignTicket =z.object
 ({
-    TechnicaId: z.string().min(5)
+    TechnicalId: z.string().min(5)
 })
 
 module.exports={ticketSchema, updateTicketStatus, assignTicket}

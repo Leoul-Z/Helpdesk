@@ -30,7 +30,7 @@ async function assign(req,res){
     const validate = assignTicket.safeParse(req.body)
 
     if(!validate.success){
-        return res.status(400).json({message:'Failed in Validation'})
+        return res.status(400).json({message:'Failed in Validation', errors: validate.error.issues})
     }
 
     const {technicalId} = validate.data
