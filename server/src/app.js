@@ -10,7 +10,7 @@ const PORT = env.PORT || 3000
 app.use(express.json())
 app.use(express.urlencoded({extended:'true'}))
 app.use(cors({
-    origin: env.clientUrl,
+    origin: env.CLIENT_URL,
     allowedHeaders: ['Authorization', 'Content-Type']
 }))
 
