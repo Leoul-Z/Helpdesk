@@ -92,7 +92,6 @@ export default function Layout({ children }) {
           )}
         </div>
         
-        {/* Mobile menu dropdown */}
         {user && isMobileMenuOpen && (
           <div className="md:hidden bg-surface border-t border-surface-container absolute top-16 left-0 w-full z-40 px-gutter py-space-md flex flex-col gap-space-sm shadow-md">
             {navLinks.map((link) => (

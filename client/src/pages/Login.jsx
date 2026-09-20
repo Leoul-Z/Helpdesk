@@ -14,14 +14,12 @@ export default function Login() {
     setError('');
     try {
       const response = await axios.post('/api/auth/login', { email, password });
-      // Save token (assuming it's returned in response.data.accessToken)
       localStorage.setItem('accessToken', response.data.accessToken);
       if (response.data.refreshToken) {
         localStorage.setItem('refreshToken', response.data.refreshToken);
       }
       localStorage.setItem('user', JSON.stringify(response.data.user));
       
-      // Navigate to dashboard
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');
@@ -41,7 +39,6 @@ export default function Login() {
 
       <main className="w-full pt-16 bg-surface">
         <div className="flex flex-col w-full items-center justify-center min-h-[calc(100vh-4rem)] px-gutter py-space-xl relative overflow-hidden">
-          {/* Decorative background elements */}
           <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary-fixed/30 blur-3xl pointer-events-none"></div>
           <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-secondary-fixed/30 blur-3xl pointer-events-none"></div>
           

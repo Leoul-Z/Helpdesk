@@ -93,7 +93,6 @@ export default function Tickets() {
   return (
     <Layout>
       <div className="flex flex-col w-full max-w-7xl mx-auto px-gutter py-space-xl">
-        {/* Top Section: Header & Quick Stats */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-space-lg mb-space-xl">
           <div>
             <div className="flex items-center gap-space-xs text-secondary text-label-md mb-space-xs uppercase tracking-wider">
@@ -115,10 +114,8 @@ export default function Tickets() {
           </div>
         </div>
 
-        {/* Filter Bar Card */}
         <div className="bg-surface-container-lowest p-space-lg rounded-xl shadow-[0_4px_6px_-1px_rgba(15,23,42,0.05)] mb-space-xl">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
-            {/* Search */}
             <div className="lg:col-span-2 relative">
               <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
               <input 
@@ -130,7 +127,6 @@ export default function Tickets() {
               />
             </div>
             
-            {/* Status Dropdown */}
             <div>
               <select 
                 className="w-full bg-surface-container-low text-on-surface text-body-md rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary transition-all cursor-pointer"
@@ -146,7 +142,6 @@ export default function Tickets() {
               </select>
             </div>
             
-            {/* Priority Dropdown */}
             <div>
               <select 
                 className="w-full bg-surface-container-low text-on-surface text-body-md rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary transition-all cursor-pointer"
@@ -161,7 +156,6 @@ export default function Tickets() {
               </select>
             </div>
             
-            {/* Category Dropdown */}
             <div>
               <select 
                 className="w-full bg-surface-container-low text-on-surface text-body-md rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-primary transition-all cursor-pointer"
@@ -176,7 +170,6 @@ export default function Tickets() {
               </select>
             </div>
 
-            {/* Technician Dropdown (Manager Only) */}
             {user.role === 'MANAGER' && (
               <div>
                 <select 
@@ -194,7 +187,6 @@ export default function Tickets() {
           </div>
         </div>
 
-        {/* Interactive Table Card */}
         <div className="bg-surface-container-lowest rounded-xl shadow-[0_4px_6px_-1px_rgba(15,23,42,0.05)] overflow-hidden mb-space-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">

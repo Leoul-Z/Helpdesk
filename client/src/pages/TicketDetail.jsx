@@ -128,7 +128,6 @@ export default function TicketDetail() {
   return (
     <Layout>
       <div className="flex flex-col w-full max-w-7xl mx-auto px-gutter py-space-xl">
-        {/* Top Section: Ticket Header & Info */}
         <div className="flex flex-col gap-space-md mb-space-xl">
           <div className="flex flex-wrap items-center justify-between gap-space-md">
             <div className="flex items-center gap-space-sm">
@@ -154,17 +153,14 @@ export default function TicketDetail() {
           </div>
         </div>
 
-        {/* Two-Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-xl">
           
-          {/* Left Column: Activity Timeline & Comment Box (8 Cols) */}
           <div className="lg:col-span-8 flex flex-col gap-space-lg">
             <div className="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-xl">
               <div className="flex items-center justify-between">
                 <h2 className="text-headline-sm font-headline-sm text-on-surface">Activity Timeline</h2>
               </div>
               
-              {/* Timeline Items */}
               <div className="relative pl-6 space-y-8 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-surface-container-high">
                 {activities.length === 0 ? (
                   <div className="text-body-md text-outline">No activity found.</div>
@@ -192,7 +188,6 @@ export default function TicketDetail() {
                 )}
               </div>
               
-              {/* Comment Input Box */}
               <div className="mt-space-md pt-space-md border-t border-surface-container-high flex flex-col gap-space-sm">
                 <label className="text-label-md font-label-md text-on-surface flex items-center justify-between" htmlFor="comment-box">
                   <span>Leave a comment</span>
@@ -217,14 +212,11 @@ export default function TicketDetail() {
             </div>
           </div>
           
-          {/* Right Column: Metadata Sidebar & Actions (4 Cols) */}
           <div className="lg:col-span-4 flex flex-col gap-space-lg">
-            {/* Role-Based Action Buttons Card */}
             <div className="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-md">
               <h3 className="text-label-md font-label-md text-outline uppercase tracking-wider">Actions</h3>
               <div className="flex flex-col gap-space-sm">
                 
-                {/* MANAGER CONTROLS */}
                 {user.role === 'MANAGER' && (
                   <>
                     {ticket.status === 'OPEN' && (
@@ -244,7 +236,6 @@ export default function TicketDetail() {
                         </button>
                       </div>
                     )}
-                    {/* Manager broader status controls (matching template) */}
                     {ticket.status !== 'CLOSED' && ticket.status !== 'OPEN' && (
                        <>
                          <button onClick={() => updateStatus('IN_PROGRESS')} className="w-full bg-surface-container-high text-on-surface hover:bg-surface-container-highest text-label-md font-label-md py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
@@ -258,7 +249,6 @@ export default function TicketDetail() {
                   </>
                 )}
                 
-                {/* TECHNICAL CONTROLS */}
                 {user.role === 'TECHNICAL' && (
                   <>
                     {ticket.status === 'ASSIGNED' && (
@@ -274,7 +264,6 @@ export default function TicketDetail() {
                   </>
                 )}
                 
-                {/* EMPLOYEE CONTROLS */}
                 {user.role === 'EMPLOYEE' && ticket.status === 'RESOLVED' && (
                   <button onClick={confirmResolution} className="w-full text-emerald-600 bg-emerald-50 hover:bg-emerald-100 text-label-md font-label-md py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
                     <span className="material-symbols-outlined text-[18px]">thumb_up</span> Confirm & Close
@@ -284,25 +273,21 @@ export default function TicketDetail() {
               </div>
             </div>
             
-            {/* Metadata Sidebar */}
             <div className="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm flex flex-col gap-space-lg">
               <h3 className="text-label-md font-label-md text-outline uppercase tracking-wider">Ticket Details</h3>
               <div className="flex flex-col gap-space-md">
-                {/* Status */}
                 <div className="flex items-center justify-between py-2 border-b border-surface-container-low">
                   <span className="text-body-md text-on-surface-variant">Status</span>
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-md font-label-md ${getStatusColor(ticket.status)}`}>
                     {ticket.status}
                   </span>
                 </div>
-                {/* Priority */}
                 <div className="flex items-center justify-between py-2 border-b border-surface-container-low">
                   <span className="text-body-md text-on-surface-variant">Priority</span>
                   <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-md font-label-md ${getPriorityColor(ticket.priority)}`}>
                     {ticket.priority}
                   </span>
                 </div>
-                {/* Category */}
                 <div className="flex items-center justify-between py-2 border-b border-surface-container-low">
                   <span className="text-body-md text-on-surface-variant">Category</span>
                   <span className="text-body-md font-medium text-on-surface">{ticket.category}</span>

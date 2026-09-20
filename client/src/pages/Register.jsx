@@ -14,10 +14,8 @@ export default function Register() {
     e.preventDefault();
     setError('');
     try {
-      // Assuming backend register endpoint is POST /api/auth/register
       await axios.post('/api/auth/register', { name, email, password });
       
-      // Navigate to login so they can log in
       navigate('/login');
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
@@ -37,7 +35,6 @@ export default function Register() {
 
       <main className="w-full pt-16 bg-surface">
         <div className="flex flex-col w-full items-center justify-center min-h-[calc(100vh-4rem)] px-gutter py-space-xl relative overflow-hidden">
-          {/* Decorative background elements */}
           <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary-fixed/30 blur-3xl pointer-events-none"></div>
           <div className="absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-secondary-fixed/30 blur-3xl pointer-events-none"></div>
           

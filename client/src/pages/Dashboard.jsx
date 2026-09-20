@@ -20,13 +20,11 @@ export default function Dashboard() {
         setStats(statsRes.data);
         
         const ticketsRes = await axios.get('/api/tickets?sort=createdAt&order=desc', config);
-        // Take top 5 tickets
         const allTickets = ticketsRes.data.result || ticketsRes.data.empResult || ticketsRes.data.techResult || [];
         setRecentTickets(allTickets.slice(0, 5));
         
         if (user.role === 'MANAGER') {
           const empRes = await axios.get('/api/auth/users', config);
-          // Filter out managers so we don't accidentally demote them
           setUsers((empRes.data.users || []).filter(u => u.role !== 'MANAGER'));
         }
       } catch (err) {
@@ -45,7 +43,6 @@ export default function Dashboard() {
       await axios.patch(`/api/auth/users/${userId}/role`, { role: newRole }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      // Refresh list
       const empRes = await axios.get('/api/auth/users', {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -78,7 +75,6 @@ export default function Dashboard() {
   return (
     <Layout>
       <div className="flex flex-col w-full min-h-[calc(100vh-4rem)]">
-        {/* Hero / Welcome Banner */}
         <div className="relative w-full bg-gradient-to-br from-primary-container/20 via-surface-container-low to-surface py-space-xl px-gutter overflow-hidden">
           <div className="absolute -right-20 -top-20 w-96 h-96 rounded-full bg-primary/5 blur-3xl pointer-events-none"></div>
           
@@ -109,15 +105,12 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Main Content Area */}
         <div className="max-w-7xl mx-auto w-full px-gutter py-space-xl flex flex-col gap-space-xl">
           
-          {/* Stat Cards Grid */}
           {user.role === 'MANAGER' ? (
             <>
               <h2 className="font-headline-sm text-headline-sm text-on-surface mb-2 mt-4">Status Breakdown</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-lg mb-8">
-                {/* Manager Cards: Total, Open, Resolved, Closed */}
                 <div className="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md relative overflow-hidden group">
                   <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
                   <div className="flex items-center justify-between">
@@ -181,7 +174,6 @@ export default function Dashboard() {
 
               <h2 className="font-headline-sm text-headline-sm text-on-surface mb-2">Priority Breakdown</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-lg">
-                {/* Priority Cards */}
                 <div className="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md relative overflow-hidden group">
                   <div className="absolute top-0 left-0 w-1 h-full bg-red-600"></div>
                   <div className="flex items-center justify-between">
@@ -235,9 +227,7 @@ export default function Dashboard() {
                 </div>
               </div>
               
-              {/* User Management Section */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-space-lg mb-8">
-                {/* Employee Management */}
                 <div className="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
                   <h2 className="font-headline-sm text-headline-sm text-on-surface mb-4">Employee Management</h2>
                   <h3 className="text-label-lg font-medium text-on-surface mb-4">Promote to Technical</h3>
@@ -265,7 +255,6 @@ export default function Dashboard() {
                   )}
                 </div>
 
-                {/* Technical Management */}
                 <div className="bg-surface-container-lowest rounded-xl shadow-sm p-space-lg">
                   <h2 className="font-headline-sm text-headline-sm text-on-surface mb-4">Technical Management</h2>
                   <h3 className="text-label-lg font-medium text-on-surface mb-4">Demote Technicals</h3>
@@ -296,7 +285,6 @@ export default function Dashboard() {
             </>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-space-lg max-w-4xl">
-              {/* Employee & Technical Cards: My Tickets & Action Required */}
               <div className="bg-surface-container-lowest rounded-xl p-space-lg shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md relative overflow-hidden group">
                 <div className="absolute top-0 left-0 w-1 h-full bg-primary"></div>
                 <div className="flex items-center justify-between">
@@ -333,7 +321,6 @@ export default function Dashboard() {
             </div>
           )}
 
-          {/* Recent Tickets Section */}
           <div className="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
             <div className="p-space-lg flex flex-col sm:flex-row sm:items-center justify-between gap-space-md bg-surface-container-lowest">
               <div>

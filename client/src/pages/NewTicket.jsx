@@ -39,7 +39,6 @@ export default function NewTicket() {
   return (
     <Layout>
       <div className="flex flex-col w-full max-w-4xl mx-auto px-gutter py-space-xl">
-        {/* Back Navigation & Header */}
         <div className="flex flex-col gap-space-sm mb-space-xl">
           <Link to="/dashboard" className="inline-flex items-center gap-space-xs text-secondary hover:text-on-surface transition-colors text-label-md w-fit">
             <span className="material-symbols-outlined text-[18px]">arrow_back</span>
@@ -52,15 +51,12 @@ export default function NewTicket() {
           </div>
         </div>
 
-        {/* Form Container */}
         <div className="bg-surface-container-lowest rounded-xl shadow-md p-space-xl relative overflow-hidden">
-          {/* Decorative background ambient glow */}
           <div className="absolute -top-24 -right-24 w-72 h-72 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
           
           <form className="flex flex-col gap-space-lg relative z-10" onSubmit={handleSubmit}>
             {error && <div className="text-error font-medium">{error}</div>}
             
-            {/* Ticket Title */}
             <div className="flex flex-col gap-space-xs">
               <label className="text-label-md font-medium text-on-surface flex items-center justify-between" htmlFor="ticket-title">
                 <span>Ticket Title</span>
@@ -77,9 +73,7 @@ export default function NewTicket() {
               />
             </div>
             
-            {/* Category & Priority Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
-              {/* Category */}
               <div className="flex flex-col gap-space-xs">
                 <label className="text-label-md font-medium text-on-surface" htmlFor="ticket-category">Category</label>
                 <div className="relative">
@@ -98,7 +92,6 @@ export default function NewTicket() {
                 </div>
               </div>
               
-              {/* Priority */}
               <div className="flex flex-col gap-space-xs">
                 <label className="text-label-md font-medium text-on-surface" htmlFor="ticket-priority">Priority Level</label>
                 <div className="relative">
@@ -118,7 +111,6 @@ export default function NewTicket() {
               </div>
             </div>
             
-            {/* Description */}
             <div className="flex flex-col gap-space-xs">
               <label className="text-label-md font-medium text-on-surface" htmlFor="ticket-description">Description</label>
               <div className="bg-surface-container-low rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-primary transition-all">
@@ -134,7 +126,6 @@ export default function NewTicket() {
               </div>
             </div>
             
-            {/* Action Buttons */}
             <div className="flex items-center justify-end gap-space-md pt-space-md">
               <button 
                 className="px-6 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors text-label-md font-medium" 
