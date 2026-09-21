@@ -178,10 +178,12 @@ async function getTickets(req, res){
                         status: status,
                         priority: priority,
                         category: category,
-                        OR: [
-                            {title: {contains: search, mode: 'insensitive'}},
-                            {ticketNumber: {contains: search, mode: 'insensitive'}}
-                        ]
+                        ...(search ? {
+                            OR: [
+                                {title: {contains: search, mode: 'insensitive'}},
+                                {ticketNumber: {contains: search, mode: 'insensitive'}}
+                            ]
+                        } : {})
                     },
                     orderBy:{
                         [sortField] : sortOrder
@@ -196,10 +198,12 @@ async function getTickets(req, res){
                         status: status,
                         priority: priority,
                         category: category,
-                        OR: [
-                            {title: {contains: search, mode: 'insensitive'}},
-                            {ticketNumber: {contains: search, mode: 'insensitive'}}
-                        ]
+                        ...(search ? {
+                            OR: [
+                                {title: {contains: search, mode: 'insensitive'}},
+                                {ticketNumber: {contains: search, mode: 'insensitive'}}
+                            ]
+                        } : {})
                     },
                      orderBy:{
                         [sortField] : sortOrder

@@ -88,7 +88,7 @@ export default function TicketDetail() {
     if (!selectedTechnician) return;
     try {
       const token = localStorage.getItem('accessToken');
-      await axios.patch(`/api/tickets/${id}/assign`, { technicalId: selectedTechnician }, {
+      await axios.patch(`/api/tickets/${id}/assign`, { TechnicalId: selectedTechnician }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchTicketDetails();
