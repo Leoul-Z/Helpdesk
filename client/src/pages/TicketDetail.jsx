@@ -235,6 +235,7 @@ export default function TicketDetail() {
                           <span className="material-symbols-outlined text-[18px]">person_check</span> Assign Technician
                         </button>
                       </div>
+                    )}
                   </>
                 )}
                 
