@@ -33,7 +33,7 @@ async function assign(req,res){
         return res.status(400).json({message:'Failed in Validation', errors: validate.error.issues})
     }
 
-    const {technicalId} = validate.data
+    const {TechnicalId: technicalId} = validate.data
 
     const found = await prisma.user.findFirst({
         where: {id: technicalId,

@@ -235,17 +235,6 @@ export default function TicketDetail() {
                           <span className="material-symbols-outlined text-[18px]">person_check</span> Assign Technician
                         </button>
                       </div>
-                    )}
-                    {ticket.status !== 'CLOSED' && ticket.status !== 'OPEN' && (
-                       <>
-                         <button onClick={() => updateStatus('IN_PROGRESS')} className="w-full bg-surface-container-high text-on-surface hover:bg-surface-container-highest text-label-md font-label-md py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
-                           <span className="material-symbols-outlined text-[18px]">sync</span> Mark In Progress
-                         </button>
-                         <button onClick={() => updateStatus('RESOLVED')} className="w-full bg-surface-container-high text-on-surface hover:bg-surface-container-highest text-label-md font-label-md py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
-                           <span className="material-symbols-outlined text-[18px]">check_circle</span> Resolve Ticket
-                         </button>
-                       </>
-                    )}
                   </>
                 )}
                 
