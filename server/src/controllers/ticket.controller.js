@@ -148,18 +148,50 @@ async function confirmResolution(req,res){
         data:{status:'CLOSED'}
     })
 
+    const activity = await prisma.activity.create({
+        data:{
+            ticketId: ticket.id,
+            userId: req.user.userId,
+            type: 'STATUS_CHANGE',
+            fromStatus: 'RESOLVED',
+            content: `Ticket Closed by Employee`
+        }
+    })
+    
+    return res.status(200).json({close, activity, message: 'Ticket Closed Successfully'})
+}
+
+async function reopenTicket(req, res){
+    const ticket = await prisma.ticket.findUnique({
+        where:{
+            id:req.params.id
+        }
+    })
+
+    if(!ticket){
+        return res.status(404).json({message: 'Not found'})
+    }
+
+    if ((ticket.status !== 'RESOLVED') || (req.user.role !== 'EMPLOYEE') || (ticket.createdById !== req.user.userId)){
+        return res.status(403).json({message: 'Forbidden'})
+    }
+
+    const reOpen = await prisma.ticket.update({
+        where:{id: ticket.id},
+        data:{status:'OPEN'}
+    })
 
     const activity = await prisma.activity.create({
         data:{
-        ticketId:ticket.id,
-        userId:req.user.userId ,
-        type: 'STATUS_CHANGE',
-        fromStatus: ticket.status,
-        toStatus: 'CLOSED'
-    }
+            ticketId: ticket.id,
+            userId: req.user.userId,
+            type: 'STATUS_CHANGE',
+            fromStatus: 'RESOLVED',
+            content: `Ticket Reopened by Employee`
+        }
     })
-
-    return res.status(200).json({close, activity, message:'Status Updated Successfully'})
+    
+    return res.status(200).json({reOpen, activity, message: 'Ticket Reopened Successfully'})
 }
 
 async function getTickets(req, res){
@@ -384,4 +416,4 @@ async function getStats(req, res){
     }
 }
 
-module.exports ={createTicket, addComment , assign, updateStatus, confirmResolution, getTickets, getTicketsById, getStats}
+module.exports ={createTicket, addComment , assign, updateStatus, confirmResolution, reopenTicket, getTickets, getTicketsById, getStats}

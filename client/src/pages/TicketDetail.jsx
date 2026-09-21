@@ -84,6 +84,19 @@ export default function TicketDetail() {
     }
   };
 
+  const reopenTicket = async () => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      await axios.patch(`/api/tickets/${id}/reopen`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      fetchTicketDetails();
+    } catch (err) {
+      console.error('Failed to reopen ticket', err);
+    }
+  };
+
+
   const assignTechnician = async () => {
     if (!selectedTechnician) return;
     try {
@@ -255,9 +268,14 @@ export default function TicketDetail() {
                 )}
                 
                 {user.role === 'EMPLOYEE' && ticket.status === 'RESOLVED' && (
-                  <button onClick={confirmResolution} className="w-full text-emerald-600 bg-emerald-50 hover:bg-emerald-100 text-label-md font-label-md py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
-                    <span className="material-symbols-outlined text-[18px]">thumb_up</span> Confirm & Close
-                  </button>
+                  <div className="flex flex-col gap-3">
+                    <button onClick={confirmResolution} className="w-full text-emerald-600 bg-emerald-50 hover:bg-emerald-100 text-label-md font-label-md py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                      <span className="material-symbols-outlined text-[18px]">thumb_up</span> Confirm & Close
+                    </button>
+                    <button onClick={reopenTicket} className="w-full text-red-600 bg-red-50 hover:bg-red-100 text-label-md font-label-md py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2">
+                      <span className="material-symbols-outlined text-[18px]">replay</span> Reopen Issue
+                    </button>
+                  </div>
                 )}
 
               </div>

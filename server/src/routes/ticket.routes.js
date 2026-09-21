@@ -13,6 +13,7 @@ ticketRouter.get('/tickets/stats', authenticate, controller.getStats)
 ticketRouter.get('/tickets/:id', authenticate, controller.getTicketsById)
 ticketRouter.patch('/tickets/:id/status', authenticate, authorize('MANAGER', 'TECHNICAL'), controller.updateStatus)
 ticketRouter.patch('/tickets/:id/confirm', authenticate, authorize('EMPLOYEE'), controller.confirmResolution)
+ticketRouter.patch('/tickets/:id/reopen', authenticate, authorize('EMPLOYEE'), controller.reopenTicket)
 ticketRouter.patch('/tickets/:id/assign', authenticate, authorize('MANAGER'), controller.assign)
 
 module.exports = ticketRouter
