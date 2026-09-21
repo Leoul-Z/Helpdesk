@@ -194,16 +194,23 @@ async function getTickets(req, res){
         case 'TECHNICAL':
                 const techResult = await prisma.ticket.findMany({
                     where:{
-                        assignedToId: req.user.userId,
                         status: status,
                         priority: priority,
                         category: category,
-                        ...(search ? {
-                            OR: [
-                                {title: {contains: search, mode: 'insensitive'}},
-                                {ticketNumber: {contains: search, mode: 'insensitive'}}
-                            ]
-                        } : {})
+                        AND: [
+                            {
+                                OR: [
+                                    { assignedToId: req.user.userId },
+                                    { createdById: req.user.userId }
+                                ]
+                            },
+                            ...(search ? [{
+                                OR: [
+                                    {title: {contains: search, mode: 'insensitive'}},
+                                    {ticketNumber: {contains: search, mode: 'insensitive'}}
+                                ]
+                            }] : [])
+                        ]
                     },
                      orderBy:{
                         [sortField] : sortOrder
@@ -294,12 +301,20 @@ async function getStats(req, res){
     switch (role){
         case 'TECHNICAL': {
             const myTickets = await prisma.ticket.count({
-                where: { assignedToId: userId }
+                where: { 
+                    OR: [
+                        { assignedToId: userId },
+                        { createdById: userId }
+                    ]
+                }
             })
 
             const myOpenTickets = await prisma.ticket.count({
                 where: {
-                    assignedToId: userId,
+                    OR: [
+                        { assignedToId: userId },
+                        { createdById: userId }
+                    ],
                     status: { in: ['ASSIGNED', 'IN_PROGRESS'] }
                 }
             })
